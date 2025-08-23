@@ -12,8 +12,8 @@ INSERT INTO Student (RollNo, Name, Age) VALUES
 (3, 'dhill', 21);
 SELECT * FROM Student;
 ALTER TABLE Student ADD Email VARCHAR(100);
-UPDATE Student SET Email = 'alice@example.com' WHERE RollNo = 1;
-UPDATE Student SET Email = 'bob@example.com' WHERE RollNo = 2;
+UPDATE Student SET Email = 'nav@example.com' WHERE RollNo = 1;
+UPDATE Student SET Email = 'dhill@example.com' WHERE RollNo = 2;
 SELECT * FROM Student;
 TRUNCATE TABLE Student;
 SELECT * FROM Student;
