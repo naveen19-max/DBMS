@@ -1,0 +1,62 @@
+DROP DATABASE IF EXISTS ConstraintDemo;
+CREATE DATABASE ConstraintDemo;
+USE ConstraintDemo;
+CREATE TABLE Department (
+    DeptID INT PRIMARY KEY,
+    DeptName VARCHAR(50) NOT NULL
+);
+CREATE TABLE Employee (
+    EmpID INT PRIMARY KEY,
+    EmpName VARCHAR(50) NOT NULL,
+    DeptID INT,
+    FOREIGN KEY (DeptID) REFERENCES Department(DeptID)
+);
+CREATE TABLE Users (
+    UserID INT PRIMARY KEY,
+    Email VARCHAR(100) UNIQUE NOT NULL
+);
+CREATE TABLE Product (
+    ProductID INT PRIMARY KEY,
+    ProductName VARCHAR(50) NOT NULL,
+    Price DECIMAL(10,2) CHECK (Price > 0)
+);
+CREATE TABLE Orders (
+    OrderID INT PRIMARY KEY,
+    Status VARCHAR(20) DEFAULT 'Pending'
+);
+CREATE TABLE Course (
+    CourseID INT PRIMARY KEY,
+    CourseName VARCHAR(50) NOT NULL
+);
+CREATE TABLE Student (
+    StudentID INT PRIMARY KEY,
+    RollNo INT UNIQUE NOT NULL,
+    Name VARCHAR(100) NOT NULL,
+    Age INT CHECK (Age >= 18),
+    CourseID INT,
+    AdmissionDate DATE DEFAULT (CURRENT_DATE),
+    FOREIGN KEY (CourseID) REFERENCES Course(CourseID)
+);
+INSERT INTO Department VALUES (1, 'HR');
+INSERT INTO Department VALUES (2, 'Finance');
+INSERT INTO Employee VALUES (101, 'Alice', 1);
+INSERT INTO Employee VALUES (102, 'Bob', 2);
+INSERT INTO Users VALUES (1, 'alice@example.com');
+INSERT INTO Users VALUES (2, 'bob@example.com');
+INSERT INTO Product VALUES (201, 'Laptop', 50000.00);
+INSERT INTO Product VALUES (202, 'Mouse', 500.00);
+INSERT INTO Orders (OrderID) VALUES (301);
+INSERT INTO Orders (OrderID, Status) VALUES (302, 'Shipped');
+INSERT INTO Course VALUES (401, 'Computer Science');
+INSERT INTO Course VALUES (402, 'Mathematics');
+INSERT INTO Student (StudentID, RollNo, Name, Age, CourseID)
+VALUES (501, 1001, 'Charlie', 20, 401);
+INSERT INTO Student (StudentID, RollNo, Name, Age, CourseID)
+VALUES (502, 1002, 'David', 22, 402);
+SELECT * FROM Department;
+SELECT * FROM Employee;
+SELECT * FROM Users;
+SELECT * FROM Product;
+SELECT * FROM Orders;
+SELECT * FROM Course;
+SELECT * FROM Student;
