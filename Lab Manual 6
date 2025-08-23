@@ -1,0 +1,19 @@
+DROP DATABASE IF EXISTS PrivilegeDemo;
+CREATE DATABASE PrivilegeDemo;
+USE PrivilegeDemo;
+CREATE TABLE Department (
+    DeptID INT PRIMARY KEY,
+    DeptName VARCHAR(50) NOT NULL
+);
+INSERT INTO Department VALUES (1, 'Computer Science');
+INSERT INTO Department VALUES (2, 'Mechanical');
+CREATE USER IF NOT EXISTS 'user1'@'localhost' IDENTIFIED BY 'password123';
+GRANT SELECT, INSERT ON PrivilegeDemo.Department TO 'user1'@'localhost';
+FLUSH PRIVILEGES;
+SELECT * FROM Department;   
+INSERT INTO Department VALUES (3, 'Electrical'); 
+UPDATE Department SET DeptName = 'Mech Engg' WHERE DeptID = 2; 
+REVOKE INSERT ON PrivilegeDemo.Department FROM 'user1'@'localhost';
+FLUSH PRIVILEGES;
+SELECT * FROM Department;   
+INSERT INTO Department VALUES (4, 'Civil'); -- ❌ will now fail
