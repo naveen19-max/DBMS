@@ -1,0 +1,23 @@
+CREATE DATABASE BusTicketSystem;
+USE BusTicketSystem;
+CREATE TABLE BusTicketBooking (
+    BookingID INT AUTO_INCREMENT PRIMARY KEY,
+    PassengerName VARCHAR(100) NOT NULL,
+    BusNumber VARCHAR(50) NOT NULL,
+    TravelDate DATE NOT NULL,
+    QRCode VARCHAR(255) UNIQUE NOT NULL,
+    Status VARCHAR(50) CHECK (Status IN ('Booked', 'Cancelled', 'Completed'))
+);
+INSERT INTO BusTicketBooking (PassengerName, BusNumber, TravelDate, QRCode, Status)
+VALUES 
+('Michael Johnson', 'B123', '2025-06-01', 'QR1234567890', 'Booked'),
+('Alice Smith', 'B456', '2025-06-05', 'QR9876543210', 'Booked'),
+('John Doe', 'B789', '2025-06-10', 'QR5556667777', 'Cancelled');
+SELECT * FROM BusTicketBooking;
+SELECT * FROM BusTicketBooking WHERE PassengerName = 'Alice Smith';
+SELECT * FROM BusTicketBooking WHERE QRCode = 'QR1234567890';
+UPDATE BusTicketBooking 
+SET Status = 'Completed' 
+WHERE BookingID = 1;
+DELETE FROM BusTicketBooking WHERE BookingID = 3;
+SELECT * FROM BusTicketBooking;
