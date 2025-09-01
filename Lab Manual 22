@@ -1,0 +1,63 @@
+SQL COSE:
+CREATE DATABASE php_mysql_demo;
+USE php_mysql_demo;
+CREATE TABLE students (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE
+);
+INSERT INTO students (name, email) VALUES
+('John Doe', 'john@example.com'),
+('Alice Smith', 'alice@example.com');
+
+PHP File (index.php):
+<?php
+$servername = "localhost";
+$username   = "root";       // default in XAMPP
+$password   = "";           // default in XAMPP
+$dbname     = "php_mysql_demo";
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+echo "<h3>✅ Connected successfully to Database</h3>";
+if (isset($_POST['add'])) {
+    $name  = $_POST['name'];
+    $email = $_POST['email'];
+    $sql = "INSERT INTO students (name, email) VALUES ('$name', '$email')";
+    if ($conn->query($sql) === TRUE) {
+        echo "<p>✅ New record created successfully</p>";
+    } else {
+        echo "Error: " . $conn->error;
+    }
+}
+if (isset($_GET['delete'])) {
+    $id = $_GET['delete'];
+    $conn->query("DELETE FROM students WHERE id=$id");
+    echo "<p>❌ Record deleted</p>";
+}
+$sql = "SELECT * FROM students";
+$result = $conn->query($sql);
+echo "<h3>📋 Student Records</h3>";
+if ($result->num_rows > 0) {
+    echo "<table border='1' cellpadding='8'>
+            <tr><th>ID</th><th>Name</th><th>Email</th><th>Action</th></tr>";
+    while($row = $result->fetch_assoc()) {
+        echo "<tr>
+                <td>".$row['id']."</td>
+                <td>".$row['name']."</td>
+                <td>".$row['email']."</td>
+                <td><a href='?delete=".$row['id']."'>Delete</a></td>
+              </tr>";
+    }
+    echo "</table>";
+} else {
+    echo "0 results";
+}
+?>
+<h3>➕ Add New Student</h3>
+<form method="POST">
+    Name: <input type="text" name="name" required><br><br>
+    Email: <input type="email" name="email" required><br><br>
+    <input type="submit" name="add" value="Add Student">
+</form>
